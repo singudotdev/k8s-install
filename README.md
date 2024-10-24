@@ -2,7 +2,7 @@
 Configuring nodes:
 ---
 
-*Before proceed with the installation, we have to configure the nodes in order to be able to perform well.
+Before proceed with the installation, we have to configure the nodes in order to be able to perform well.
 
 <br/>
 
