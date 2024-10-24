@@ -71,7 +71,9 @@ Update the 'config.toml' for containerd:
 sudo vim /etc/containerd/config.toml
 ```
 
-![[cgroup.png]]
+<p align="center">
+  <img src="https://raw.githubusercontent.com/singudotdev/k8s-install/refs/heads/master/img/cgroup.png" />
+</p>
 
 Save and exit. Then, restart containerd:
 
