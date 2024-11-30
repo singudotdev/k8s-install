@@ -1,4 +1,9 @@
 
+If Kube-VIP does not bind address
+---
+```sh
+sudo ip addr add <ip_addr>/24 dev <iface>
+```
 Configuring nodes:
 ---
 
