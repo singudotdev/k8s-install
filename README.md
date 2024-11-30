@@ -16,7 +16,7 @@ On each node, we need to disable swap, update "/etc/hosts" and install the CRI (
 In the '/etc/hosts' we need to add all nodes IP with his hostname. Ex:
 
 ```sh
-192.168.1.200
+192.168.1.200    cluster-endpoint
 192.168.1.100    k8s-master-01
 192.168.1.101    k8s-worker-01
 [...]
