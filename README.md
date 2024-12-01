@@ -1,9 +1,3 @@
-
-If Kube-VIP does not bind address
----
-```sh
-sudo ip addr add <ip_addr>/24 dev <iface>
-```
 Configuring nodes:
 ---
 
@@ -114,19 +108,52 @@ sudo apt-mark hold kubelet kubeadm kubectl
 sudo systemctl enable --now kubelet
 ```
 
+Install Kube-VIP LoadBalancer
+---
+
+Create the necessary environment variables for make the setup faster (run as root):
+
+
+```sh
+export VIP=192.168.0.0
+export INTERFACE=ens1
+```
+
+Assing to the current Network Interface the desired IP for the Cluster Endpoint (has to be free and not used by another system or service), install Kube-VIP and run it for generate the config file:
+
+```sh
+sudo ip addr add $VIP/24 dev $INTERFACE
+
+KVVERSION=$(curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name")
+
+alias kube-vip="ctr image pull ghcr.io/kube-vip/kube-vip:$KVVERSION; ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"
+
+kube-vip manifest pod \
+	--interface $INTERFACE \
+	--address $VIP \
+	--controlplane \
+	--services \
+	--arp \
+	--leaderElection | tee /etc/kubernetes/manifests/kube-vip.yaml
+```
+
+Then, save the file `/etc/kubernetes/manifests/kube-vip.yaml` in a place for the next steps.
 Create cluster:
 ---
 
 On 'master' node:
 
 ```sh
-sudo kubeadm init --control-plane-endpoint cluster-endpoint
+sudo kubeadm init --control-plane-endpoint cluster-endpoint --upload-certs
 
 # Configuring kubectl
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
+
+Then, add the control-planes to the cluster and copy the `kube-vip.yml` found in `/etc/kubernetes/manifests/kube-vip.yaml` in the `/etc/kubernetes/manifests/` directory of each control plane.
+
 Installing Calico CNI (Container Network Interface):
 ---
 
