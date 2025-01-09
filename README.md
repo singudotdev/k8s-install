@@ -128,16 +128,17 @@ KVVERSION=$(curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | j
 
 alias kube-vip="ctr image pull ghcr.io/kube-vip/kube-vip:$KVVERSION; ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"
 
-kube-vip manifest pod \
-	--interface $INTERFACE \
-	--address $VIP \
-	--controlplane \
-	--services \
-	--arp \
-	--leaderElection | tee /etc/kubernetes/manifests/kube-vip.yaml
+kube-vip manifest daemonset \
+    --interface $INTERFACE \
+    --address $VIP \
+    --inCluster \
+    --taint \
+    --controlplane \
+    --services \
+    --arp \
+    --leaderElection | tee /home/singu/k8s/kube-vip.yaml
 ```
 
-Then, save the file `/etc/kubernetes/manifests/kube-vip.yaml` in a place for the next steps.
 Create cluster:
 ---
 
@@ -152,7 +153,12 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-Then, add the control-planes to the cluster and copy the `kube-vip.yml` found in `/etc/kubernetes/manifests/kube-vip.yaml` in the `/etc/kubernetes/manifests/` directory of each control plane.
+Then, add the control-planes to the cluster and execute:
+
+```sh
+kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
+kubectl apply -f /home/singu/k8s/kube-vip.yml
+```
 
 Installing Calico CNI (Container Network Interface):
 ---
