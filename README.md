@@ -173,4 +173,6 @@ sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
 rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 
 cilium install --version 1.16.5
+
+cilium status --wait
 ```
