@@ -7,7 +7,7 @@ Before proceed with the installation, we have to configure the nodes in order to
 
 On each node, we need to disable swap, update "/etc/hosts" and install the CRI (Container Runtime Interface). In this case, containerd.
 
-In the '/etc/hosts' we need to add all nodes IP with his hostname. Ex:
+In the '/etc/hosts' we need to add all nodes IP with his hostname. 'cluster-endpoint' is the Virtual IP (VIP) that the cluster is going to have. Ex:
 
 ```sh
 192.168.1.200    cluster-endpoint
