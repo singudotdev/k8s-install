@@ -157,7 +157,7 @@ Then, add the control-planes to the cluster and execute:
 
 ```sh
 kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
-kubectl apply -f /home/singu/k8s/kube-vip.yml
+kubectl apply -f /home/singu/k8s/kube-vip.yaml
 ```
 
 Installing Cilium CNI (Container Network Interface):
