@@ -1,4 +1,5 @@
-Configuring nodes:
+# Deploy Kubernetes cluster
+Configuring nodes
 ---
 
 Before proceed with the installation, we have to configure the nodes in order to be able to perform well.
@@ -84,7 +85,7 @@ sudo systemctl enable containerd
 
 After doing this in all the nodes, we can proceed with the 'kubeadm' installation.
 
-Installing kubeadm:
+Installing kubeadm
 ---
 
 ```sh
@@ -139,7 +140,7 @@ kube-vip manifest daemonset \
     --leaderElection | tee /home/singu/k8s/kube-vip.yaml
 ```
 
-Create cluster:
+Create cluster
 ---
 
 On 'master' node:
@@ -160,7 +161,7 @@ kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
 kubectl apply -f /home/singu/k8s/kube-vip.yml
 ```
 
-Installing Cilium CNI (Container Network Interface):
+Installing Cilium CNI (Container Network Interface)
 ---
 
 ```sh
