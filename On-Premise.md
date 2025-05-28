@@ -1,5 +1,23 @@
 # Enterprise Architecture for On-Premise Kubernetes
 
+| Layer / Capability            | Main Components                    | Key Features / Benefits                                                                                                     |
+|------------------------------|------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| **Edge Load Balancer & Security**    | Cloudflare                         | Global Anycast load balancing, DDoS/WAF, SSL offload, CDN, Argo Tunnel, Bot Management, Zero Trust Access            |
+| **Ingress Controller**               | Traefik Enterprise                 | Dynamic L7 routing, mTLS, API gateway, WAF integration, Gateway API, observability                                   |
+| **Service Mesh & Networking**        | Cilium Service Mesh                | eBPF-powered mesh, sidecarless mTLS, L3/L4/L7 policies, L7 routing, Hubble observability, egress, multi-cluster      |
+| **Security & Compliance**            | Cloudflare WAF, Cilium, OPA, Falco, Vault | Edge and internal segmentation, admission control, runtime security, secrets, CIS hardening, image scanning   |
+| **Observability & Logging**          | Cloudflare Logs, ELK, Hubble, Prometheus, Grafana, Jaeger/Zipkin | Centralized logging, SIEM, real-time network flow, metrics, alerting, tracing          |
+| **Platform Resilience & Operations** | ArgoCD/Flux, Operators, Self-Heal, Backup | GitOps, automated upgrades, disaster recovery, pod disruption budgets, failover                               |
+
+---
+
+**TL;DR:**  
+- **Cloudflare** secures and optimizes traffic at the edge.
+- **Traefik** manages ingress with API gateway features.
+- **Cilium** delivers powerful service mesh, security, and observability inside Kubernetes.
+- **OPA, Falco, Vault** ensure compliance and runtime protection.
+- **Unified observability** (logs, metrics, tracing) and **GitOps-driven operations** provide enterprise reliability and scalability.
+
 ## 1. Edge Load Balancer & Security
 - **Cloudflare**:
   - **Global Load Balancing**: Routes traffic to the nearest data center using Anycast.
