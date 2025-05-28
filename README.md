@@ -120,10 +120,10 @@ export VIP=192.168.0.0
 export INTERFACE=ens1
 ```
 
-Assing to the current Network Interface the desired IP for the Cluster Endpoint (has to be free and not used by another system or service), install Kube-VIP and run it for generate the config file:
+Assing to the current Network Interface the desired IP for the Cluster Endpoint (has to be free and not used by another system or service), install Kube-VIP and run it for generate the config file (run as root):
 
 ```sh
-sudo ip addr add $VIP/24 dev $INTERFACE
+ip addr add $VIP/24 dev $INTERFACE
 
 KVVERSION=$(curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name")
 
