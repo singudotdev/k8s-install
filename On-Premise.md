@@ -1,4 +1,4 @@
-# Enterprise Architecture for On-Premise Kubernetes with Cloudflare & Cilium (Improved)
+# Enterprise Architecture for On-Premise Kubernetes
 
 ## 1. Edge Load Balancer & Security
 - **Cloudflare**:
