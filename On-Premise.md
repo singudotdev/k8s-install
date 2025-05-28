@@ -1,4 +1,4 @@
-# Enterprise Architecture for On-Premise Kubernetes
+# Enterprise Architecture for On-Premise/Cloud/Hybrid Kubernetes
 
 | Layer / Capability            | Main Components                    | Key Features / Benefits                                                                                                     |
 |------------------------------|------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
