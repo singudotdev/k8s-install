@@ -161,7 +161,7 @@ kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
 kubectl apply -f /home/singu/k8s/kube-vip.yaml
 ```
 
-Installing Cilium CNI (Container Network Interface)
+Installing Cilium CNI (Container Network Interface) and remove Kube-Proxy:
 ---
 
 ```sh
@@ -177,4 +177,7 @@ rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 cilium install --version 1.16.5 --encryption=wireguard --kube-proxy-replacement=strict
 
 cilium status --wait
+
+# Remove Kube-Proxy
+kubectl -n kube-system delete ds kube-proxy
 ```
