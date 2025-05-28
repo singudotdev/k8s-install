@@ -180,4 +180,5 @@ cilium status --wait
 
 # Remove Kube-Proxy
 kubectl -n kube-system delete ds kube-proxy
+cilium config set enable-l7-proxy true
 ```
