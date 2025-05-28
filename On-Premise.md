@@ -18,6 +18,7 @@
 - **OPA, Falco, Vault** ensure compliance and runtime protection.
 - **Unified observability** (logs, metrics, tracing) and **GitOps-driven operations** provide enterprise reliability and scalability.
 
+![[diagram.png]]
 ## 1. Edge Load Balancer & Security
 - **Cloudflare**:
   - **Global Load Balancing**: Routes traffic to the nearest data center using Anycast.
