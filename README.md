@@ -173,7 +173,8 @@ sha256sum --check cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
 rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 
-cilium install --version 1.16.5
+# Enable WireGuard encryption and install Cilium
+cilium install --version 1.16.5 --encryption wireguard
 
 cilium status --wait
 ```
