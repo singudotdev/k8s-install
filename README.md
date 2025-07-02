@@ -182,7 +182,6 @@ cilium install --version 1.17.5 \
 
 cilium status --wait
 
-# Remove Kube-Proxy
-kubectl -n kube-system delete ds kube-proxy
+# Enable Cilium for L7
 cilium config set enable-l7-proxy true
 ```
