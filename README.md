@@ -175,7 +175,10 @@ sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
 rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 
 # Enable WireGuard encryption, Kube-Proxy replacement and install Cilium
-cilium install --version $CILIUM_VERSION --encryption=wireguard --kube-proxy-replacement=strict
+cilium install --version 1.17.5 \
+  --set encryption.nodeEncryption=true \
+  --set encryption.type=wireguard \
+  --set kubeProxyReplacement=true
 
 cilium status --wait
 
