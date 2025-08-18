@@ -146,7 +146,7 @@ Create cluster
 On 'master' node:
 
 ```sh
-sudo kubeadm init --control-plane-endpoint cluster-endpoint --upload-certs
+sudo kubeadm init --skip-phases=addon/kube-proxy --control-plane-endpoint cluster-endpoint --upload-certs 
 
 # Configuring kubectl
 mkdir -p $HOME/.kube
