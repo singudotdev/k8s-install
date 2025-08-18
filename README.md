@@ -89,7 +89,7 @@ Installing kubeadm
 ---
 
 ```sh
-KVVERSION='v1.33'
+K8S_VERSION='v1.33'
 sudo apt-get update
 # apt-transport-https may be a dummy package; if so, you can skip that package
 sudo apt-get install -y apt-transport-https ca-certificates curl gpg
