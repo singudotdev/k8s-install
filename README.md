@@ -66,7 +66,7 @@ sudo apt install containerd.io
 containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
 ```
 
-Update the 'config.toml' for containerd:
+Update the 'config.toml' for containerd in order to set `SystemdCgroup = true`:
 
 ```sh
 sudo vim /etc/containerd/config.toml
