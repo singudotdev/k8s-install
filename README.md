@@ -138,24 +138,43 @@ sudo systemctl enable --now kubelet
 
 ---
 
-## 4️⃣ Set Up Kube-VIP LoadBalancer (HA VIP)
+## 4️⃣ Install Kube-VIP LoadBalancer (VIP/HA)
 
-**On each control plane node:**
+> **🛑 All steps in this section must be run as `root`.**
+
+Set the required environment variables:
 
 ```sh
-export VIP=192.168.1.200       # Your desired VIP
-export INTERFACE=ens1          # Your network interface
-export USERNAME=your_user_non_root
+export VIP=192.168.1.200      # Set to your cluster VIP
+export INTERFACE=ens1         # The network interface to use
+export USERNAME=your_user_non_root  # Change as appropriate
+```
 
-sudo ip addr add $VIP/24 dev $INTERFACE
+Assign the VIP to the network interface:
 
+```sh
+ip addr add $VIP/24 dev $INTERFACE
+```
+
+Create the manifest directory and file:
+
+```sh
 mkdir -p /home/${USERNAME}/k8s
 touch /home/${USERNAME}/k8s/kube-vip.yaml
+```
 
+Download the latest kube-vip version and prepare the manifest generator:
+
+```sh
 KVVERSION=$(curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name")
 
+# Prepare kube-vip alias using containerd's ctr tool
 alias kube-vip="ctr image pull ghcr.io/kube-vip/kube-vip:$KVVERSION; ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"
+```
 
+Generate the DaemonSet manifest for kube-vip:
+
+```sh
 kube-vip manifest daemonset \
     --interface $INTERFACE \
     --address $VIP \
@@ -166,6 +185,10 @@ kube-vip manifest daemonset \
     --arp \
     --leaderElection | tee /home/${USERNAME}/k8s/kube-vip.yaml
 ```
+
+> **Note:**  
+> All the above commands must be executed as `root`.  
+> This is required for assigning IP addresses, managing system network interfaces, and running containerd commands.
 
 ---
 
