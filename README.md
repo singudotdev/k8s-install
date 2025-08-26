@@ -1,7 +1,5 @@
 # 🚀 Enterprise Kubernetes Platform: Minimal, High-Availability Kubernetes Deployment Guide
 
----
-
 ## 📚 What Is This Guide?
 
 This document is a hands-on, step-by-step deployment guide for building a minimal yet production-ready Kubernetes cluster for enterprise needs. It’s designed to get you from zero to a robust, highly available cluster—on-premises, in the cloud, or across hybrid environments—using only essential, open-source tools.
