@@ -1,5 +1,4 @@
 # Deploy Kubernetes cluster
-For Debian 12 and 13 fresh install.
 
 Configuring nodes
 ---
