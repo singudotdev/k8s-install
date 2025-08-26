@@ -129,6 +129,9 @@ Assing to the current Network Interface the desired IP for the Cluster Endpoint 
 ```sh
 ip addr add $VIP/24 dev $INTERFACE
 
+mkdir -p /home/${USERNAME}/k8s
+touch /home/${USERNAME}/k8s/kube-vip.yaml
+
 KVVERSION=$(curl -sL https://api.github.com/repos/kube-vip/kube-vip/releases | jq -r ".[0].name")
 
 alias kube-vip="ctr image pull ghcr.io/kube-vip/kube-vip:$KVVERSION; ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:$KVVERSION vip /kube-vip"
