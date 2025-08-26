@@ -4,39 +4,39 @@
 
 ## ✨ Purpose
 
-This guide is a **minimalist, production-ready manual** for deploying a highly available Kubernetes cluster on bare metal or in your private datacenter. It focuses on **simplicity** and **robustness**—giving you everything you need to get started, and nothing you don’t.
+This guide provides a concise, step-by-step approach to deploying a **fully functional, production-ready Kubernetes cluster on-premises** with **only the essential components** required to get up and running. The goal is to deliver a minimal, maintainable, and robust baseline suitable for enterprise environments, while keeping configuration complexity low and avoiding unnecessary extras.
 
-You’ll build a cluster with:
+You will use:
 
-- **containerd** as a secure, lightweight container runtime
-- **kubeadm** for easy, reliable cluster bootstrapping
-- **kube-vip** for a virtual IP (VIP) and HA control plane
-- **Cilium** as the CNI, with eBPF-powered, proxy-free, secure networking
+- **containerd** as the container runtime (CRI)
+- **kubeadm** for Kubernetes bootstrapping and management
+- **kube-vip** for a highly available virtual IP (VIP) endpoint for the control plane
+- **Cilium** as the CNI (Container Network Interface), providing advanced, kube-proxy-free networking and security
 
 ---
 
 ## 💡 Why This Approach Is Best Practice
 
-- **Minimalism:** Only the essential components—no bloat, no guesswork.
-- **Cloud-Native:** All tools are cloud-native, open source, and widely adopted.
-- **Transparency:** Each step is explicit and manual, making troubleshooting and learning easier.
-- **High Availability:** kube-vip provides seamless HA for the Kubernetes API, without external load balancers.
-- **Modern Networking:** Cilium delivers state-of-the-art, high-performance networking (eBPF, WireGuard encryption, L7 policies).
-- **Vendor Neutral:** No lock-in; fully open source.
-- **Production-Ready:** Forms a strong, stable foundation for your workloads—easy to extend with monitoring, backup, and security later.
+- **Minimalism:** Installs only what is strictly necessary for a working, highly available Kubernetes cluster.
+- **Cloud-Native:** Uses Kubernetes-native tools (kubeadm, kube-vip, Cilium) that are widely adopted and actively maintained.
+- **Simplicity:** Manual, explicit configuration steps ensure transparency and make troubleshooting straightforward.
+- **High Availability:** Leverages kube-vip for simple, cloud-agnostic HA of the API server endpoint, without needing external load balancers or complex legacy tools.
+- **Modern Networking:** Employs Cilium for high-performance, eBPF-powered networking and security, enabling features like direct routing, WireGuard encryption, and L7 policy enforcement.
+- **Vendor Neutral:** No reliance on cloud or commercial vendor components; everything is open source and portable.
+- **Production-Ready:** This setup is suitable for running production workloads, and forms a solid baseline for further customization (monitoring, backup, security hardening, etc.) as needed.
 
 ---
 
 ## 👤 Who Is This Guide For?
 
-- Engineers seeking a **reproducible, minimal, and enterprise-ready Kubernetes cluster** on bare metal or private cloud.
-- Teams wanting **full control and understanding** of their cluster’s components.
-- Environments that require **high availability** without external dependencies.
+- Anyone who needs a **reproducible, enterprise-friendly, and minimal Kubernetes cluster** on bare metal or in a private datacenter.
+- Teams who want to understand and control every component in their cluster.
+- Environments where you want **high availability** without external dependencies.
 
 ---
 
-> ⚠️ **Note:** This guide covers the minimal requirements for a working HA Kubernetes cluster.  
-> Supplement with security hardening, monitoring, and backup as needed.
+> ⚠️ **Note:** This guide is intentionally focused on the minimal requirements for a working HA Kubernetes cluster.  
+> You should supplement it with your own security, monitoring, and backup solutions as appropriate for your environment.
 
 ---
 
@@ -48,9 +48,9 @@ You’ll build a cluster with:
 
 Before installing Kubernetes, configure each node for performance and compatibility.
 
-#### 1.1. Update `/etc/hosts`
+### 1.1. Update `/etc/hosts`
 
-Add all nodes' IP addresses and hostnames, including the VIP:
+> **Edit `/etc/hosts` on every node to include all nodes and the VIP:**
 
 ```sh
 192.168.1.200    cluster-endpoint
@@ -59,72 +59,90 @@ Add all nodes' IP addresses and hostnames, including the VIP:
 # ...add more nodes as needed
 ```
 
-#### 1.2. Disable Swap & Configure Kernel Modules
+---
+
+### 1.2. Disable Swap & Configure Kernel Modules
+
+> **Disable swap and configure required kernel modules and sysctl params:**
 
 ```sh
 sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf
-overlay
+# Enable kernel modules for containerd networking
+cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf 
+overlay 
 br_netfilter
 EOF
 
-sudo modprobe overlay
+sudo modprobe overlay 
 sudo modprobe br_netfilter
 
+# Set sysctl params required by Kubernetes
 cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-k8s.conf
 net.bridge.bridge-nf-call-iptables = 1
-net.ipv4.ip_forward = 1
-net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward = 1 
+net.bridge.bridge-nf-call-ip6tables = 1 
 EOF
 
-sudo sysctl --system
-sudo reboot now
+sudo sysctl --system   # Apply sysctl params
+sudo reboot now        # Reboot to ensure all changes take effect
 ```
 
 ---
 
 ## 2️⃣ Install containerd (Container Runtime)
 
+> **Install containerd and generate its config:**
+
 ```sh
 sudo apt-get update
-sudo apt-get install ca-certificates curl
+sudo apt-get install -y ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 
+# Add Docker's repository to Apt sources:
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 sudo apt-get update
-sudo apt install containerd.io
+sudo apt install -y containerd.io
 
+# Generate default containerd configuration file
 containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
+```
 
-# Edit config.toml to set SystemdCgroup = true:
+> **Edit `/etc/containerd/config.toml` and set `SystemdCgroup = true`:**
+
+```sh
 sudo vim /etc/containerd/config.toml
-# (Find and change to SystemdCgroup = true)
-
-sudo systemctl restart containerd
-sudo systemctl enable containerd
+# Find the line "SystemdCgroup = false" and change it to "SystemdCgroup = true"
 ```
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/singudotdev/k8s-install/refs/heads/master/img/cgroup.png" alt="SystemdCgroup = true"/>
 </p>
 
+```sh
+sudo systemctl restart containerd
+sudo systemctl enable containerd
+```
+
 ---
 
 ## 3️⃣ Install kubeadm, kubelet, and kubectl
+
+> **Install Kubernetes tools on every node:**
 
 ```sh
 export K8S_VERSION=v1.33
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl gpg
 
+# Import the Kubernetes APT repository key and repo
 curl -fsSL https://pkgs.k8s.io/core:/stable:/$K8S_VERSION/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/$K8S_VERSION/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
@@ -140,7 +158,7 @@ sudo systemctl enable --now kubelet
 
 ## 4️⃣ Install Kube-VIP LoadBalancer (VIP/HA)
 
-> **🛑 All steps in this section must be run as `root`.**
+> **🛑 All steps in this section must be run as `root` on each control-plane node.**
 
 Set the required environment variables:
 
@@ -192,24 +210,27 @@ kube-vip manifest daemonset \
 
 ---
 
-## 5️⃣ Initialize the Cluster
+## 5️⃣ Create the Cluster
 
-**On the first master node:**
+> **On the first control-plane (master) node, run:**
 
 ```sh
-sudo kubeadm init --skip-phases=addon/kube-proxy --control-plane-endpoint cluster-endpoint --upload-certs
+sudo kubeadm init --skip-phases=addon/kube-proxy --control-plane-endpoint cluster-endpoint --upload-certs 
+```
 
-# Configure kubectl for your user:
+> **Configure kubectl for your user:**
+
+```sh
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-**Add additional control plane nodes as required.**
-
 ---
 
 ## 6️⃣ Deploy Kube-VIP to the Cluster
+
+> **Apply the kube-vip RBAC and manifest (use the path from previous step):**
 
 ```sh
 kubectl apply -f https://kube-vip.io/manifests/rbac.yaml
@@ -218,7 +239,9 @@ kubectl apply -f /home/${USERNAME}/k8s/kube-vip.yaml
 
 ---
 
-## 7️⃣ Install Cilium CNI (proxy-free)
+## 7️⃣ Install Cilium CNI (Container Network Interface) and Remove Kube-Proxy
+
+> **Install Cilium CLI and deploy Cilium with WireGuard encryption and kube-proxy replacement:**
 
 ```sh
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
@@ -230,7 +253,6 @@ sha256sum --check cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
 rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 
-# Enable WireGuard encryption, kube-proxy replacement, and install Cilium:
 cilium install --version $CILIUM_VERSION \
   --set encryption.nodeEncryption=true \
   --set encryption.type=wireguard \
@@ -238,7 +260,7 @@ cilium install --version $CILIUM_VERSION \
 
 cilium status --wait
 
-# Enable L7 proxying:
+# Enable Cilium for L7 policies and proxying:
 cilium config set enable-l7-proxy true
 ```
 
@@ -246,7 +268,8 @@ cilium config set enable-l7-proxy true
 
 ## 🎉 Done!
 
-You now have a **minimal, highly available, production-grade Kubernetes cluster** with cloud-native HA, modern secure networking, and no unnecessary complexity.
+You now have a **minimal, highly available, and production-grade Kubernetes cluster**  
+with modern, secure networking and no unnecessary complexity.
 
 ---
 
