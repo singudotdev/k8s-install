@@ -15,7 +15,7 @@ You will build a platform with:
 - **Cloudflare** at the edge (security, CDN, global LB, Zero Trust)
 - **Traefik OSS** for L7 ingress, API gateway, and observability
 - **OPA/Gatekeeper, Falco, Vault** for security and compliance
-- **Prometheus, Grafana, Opensearch, Opensearch Dashboards, Fluent Bit, Hubble, Jaeger/Zipkin** for observability
+- **Prometheus, Grafana, Opensearch, Opensearch Dashboards, Fluent Bit, Hubble, Jaeger** for observability
 - **ArgoCD/Flux, backup/DR tools** for resilience and operations
 
 ---
@@ -52,7 +52,7 @@ You will build a platform with:
 | **Ingress Controller**               | Traefik OSS                        | Dynamic L7 routing, mTLS, API gateway, Gateway API, observability                                                    |
 | **Service Mesh & Networking**        | Cilium Service Mesh                | eBPF-powered mesh, sidecarless mTLS, L3/L4/L7 policies, L7 routing, Hubble observability, egress, multi-cluster      |
 | **Security & Compliance**            | Cloudflare WAF, Cilium, OPA, Falco, Vault | Edge and internal segmentation, admission control, runtime security, secrets, CIS hardening                   |
-| **Observability & Logging**          | Cloudflare Logs, Opensearch, Opensearch Dashboards, Fluent Bit, Hubble, Prometheus, Grafana, Jaeger/Zipkin | Centralized logging, SIEM, real-time network flow, metrics, alerting, tracing |
+| **Observability & Logging**          | Cloudflare Logs, Opensearch, Opensearch Dashboards, Fluent Bit, Hubble, Prometheus, Grafana, Jaeger | Centralized logging, SIEM, real-time network flow, metrics, alerting, tracing |
 | **Platform Resilience & Operations** | ArgoCD/Flux, Operators, Self-Heal, Backup | GitOps, automated upgrades, disaster recovery, pod disruption budgets, failover                               |
 
 ---
@@ -302,7 +302,7 @@ cilium config set enable-l7-proxy true
 - **mTLS & Automated TLS**
 - **API Gateway Features**
 - **Gateway API Support**
-- **Prometheus, Jaeger/Zipkin, Hubble integration**
+- **Prometheus, Jaeger, Hubble integration**
 
 > **HA Setup:**  
 > Deploy Traefik OSS with multiple replicas (Deployment or DaemonSet) behind a Kubernetes Service (type `LoadBalancer` or `NodePort`) for high availability.  
@@ -335,7 +335,7 @@ cilium config set enable-l7-proxy true
 - **SIEM Integration** (optional)
 - **Cilium Hubble for Network Flow Visibility**
 - **Prometheus + Grafana for Metrics**
-- **Jaeger/Zipkin for Tracing**
+- **Jaeger for Tracing**
 - **Alerting (policy violations, anomaly detection)**
 
 ### Example: Log Collection and Visualization Stack
