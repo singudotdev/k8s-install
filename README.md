@@ -49,9 +49,9 @@ You will build a platform with:
 | Layer / Capability            | Main Components                    | Key Features / Benefits                                                                                                     |
 |------------------------------|------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
 | **Edge Load Balancer & Security**    | Cloudflare                         | Global Anycast load balancing, DDoS/WAF, SSL offload, CDN, Argo Tunnel, Bot Management, Zero Trust Access            |
-| **Ingress Controller**               | Traefik OSS                        | Dynamic L7 routing, mTLS, API gateway, Gateway API, observability                                                   |
+| **Ingress Controller**               | Traefik OSS                        | Dynamic L7 routing, mTLS, API gateway, Gateway API, observability                                                    |
 | **Service Mesh & Networking**        | Cilium Service Mesh                | eBPF-powered mesh, sidecarless mTLS, L3/L4/L7 policies, L7 routing, Hubble observability, egress, multi-cluster      |
-| **Security & Compliance**            | Cloudflare WAF, Cilium, OPA, Falco, Vault | Edge and internal segmentation, admission control, runtime security, secrets, CIS hardening, image scanning   |
+| **Security & Compliance**            | Cloudflare WAF, Cilium, OPA, Falco, Vault | Edge and internal segmentation, admission control, runtime security, secrets, CIS hardening                   |
 | **Observability & Logging**          | Cloudflare Logs, Opensearch, Opensearch Dashboards, Fluent Bit, Hubble, Prometheus, Grafana, Jaeger/Zipkin | Centralized logging, SIEM, real-time network flow, metrics, alerting, tracing |
 | **Platform Resilience & Operations** | ArgoCD/Flux, Operators, Self-Heal, Backup | GitOps, automated upgrades, disaster recovery, pod disruption budgets, failover                               |
 
@@ -324,7 +324,7 @@ cilium config set enable-l7-proxy true
 - **Runtime Security (Falco)**
 - **Secrets Management (Vault)**
 - **Cluster Hardening (CIS, kube-bench)**
-- **Image Scanning (Trivy, Clair, Aqua)**
+- **Image Scanning (Trivy, Clair or Aqua)**
 
 ## 5. Observability & Logging
 
