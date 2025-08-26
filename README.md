@@ -57,10 +57,6 @@ You will build a platform with:
 
 ---
 
-![Enterprise Kubernetes Architecture](img/diagram.png)
-
----
-
 # 🏗️ Deploying the Kubernetes Cluster (Foundation)
 
 ---
