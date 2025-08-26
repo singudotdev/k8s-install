@@ -121,6 +121,7 @@ Create the necessary environment variables for make the setup faster (run as roo
 ```sh
 export VIP=192.168.0.0
 export INTERFACE=ens1
+export USERNAME=your_user_non_root
 ```
 
 Assing to the current Network Interface the desired IP for the Cluster Endpoint (has to be free and not used by another system or service), install Kube-VIP and run it for generate the config file (run as root):
@@ -140,7 +141,7 @@ kube-vip manifest daemonset \
     --controlplane \
     --services \
     --arp \
-    --leaderElection | tee /home/singu/k8s/kube-vip.yaml
+    --leaderElection | tee /home/${USERNAME}/k8s/kube-vip.yaml
 ```
 
 Create cluster
