@@ -44,7 +44,7 @@ You will build a platform with:
 
 ---
 
-# 🪜 Platform Layers Overview
+# 🗂️ Platform Layers Overview
 
 | Layer / Capability            | Main Components                    | Key Features / Benefits                                                                                                     |
 |------------------------------|------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
