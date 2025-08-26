@@ -4,7 +4,7 @@
 
 ## ✨ Purpose
 
-This guide provides a full-stack, service-by-service approach for having a **highly available, production-ready Kubernetes platform** on-premise, in the cloud, or in a hybrid setup. It layers **essential cluster deployment steps** with **enterprise-grade architecture** for security, observability, resilience, and scalability.
+This architecture provides a full-stack, service-by-service approach for having a **highly available, production-ready Kubernetes platform** on-premise, in the cloud, or in a hybrid setup. It layers **essential cluster deployment steps** with **enterprise-grade architecture** for security, observability, resilience, and scalability.
 
 ---
 
@@ -19,7 +19,7 @@ This guide provides a full-stack, service-by-service approach for having a **hig
 
 ---
 
-## 👤 Who Is This Guide For?
+## 👤 Who Is This Architecture For?
 
 - Enterprises and teams needing a **scalable, secure, and compliant Kubernetes platform** on bare metal, private cloud, or hybrid setups.
 - Operators who want **transparency, automation, and control** at every layer.
@@ -152,3 +152,4 @@ This guide provides a full-stack, service-by-service approach for having a **hig
   Automated upgrades, backup/recovery, disaster recovery, and unified, GitOps-driven operations reduce toil and risk.
 - **Vendor Neutrality & Flexibility:**  
   100% open source, cloud-agnostic, and extensible—portable across any infrastructure.
+
