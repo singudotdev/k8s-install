@@ -264,6 +264,33 @@ cilium config set enable-l7-proxy true
 
 ---
 
+## 🟢 (Optional) Enable Cilium Hubble & Hubble UI
+
+Cilium Hubble provides deep network visibility and observability for your Kubernetes cluster.
+
+> **If you already enabled Hubble previously (`cilium hubble enable`), you must first temporarily disable it before enabling the UI. The Hubble UI cannot be added at runtime to an already-enabled Hubble deployment.**
+
+```sh
+# If Hubble is already enabled, first disable it
+cilium hubble disable
+
+# Now enable Hubble with the UI
+cilium hubble enable --ui
+```
+
+- If you run `cilium hubble enable --ui` and Hubble UI is already deployed, you will see confirmation messages:
+  ```
+  🔑 Found existing CA in secret cilium-ca
+  ✨ Patching ConfigMap cilium-config to enable Hubble...
+  ♻️ Restarted Cilium pods
+  ✅ Relay is already deployed
+  ✅ Hubble UI is already deployed
+  ```
+
+- To access the Hubble UI, use port-forwarding (e.g. `kubectl port-forward -n kube-system svc/hubble-ui 12000:80`) and open [http://localhost:12000](http://localhost:12000) in your browser.
+
+---
+
 # 🎉 Done!
 
 You now have a **minimal, highly available, and enterprise-grade Kubernetes platform**  
