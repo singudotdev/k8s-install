@@ -158,7 +158,7 @@ sudo systemctl enable --now kubelet
 
 ## 4️⃣ Install Kube-VIP LoadBalancer (VIP/HA)
 
-> **🛑 All steps in this section must be run as `root` on each control-plane node.**
+> **🛑 All steps in this section must be run as `root`.**
 
 Set the required environment variables:
 
