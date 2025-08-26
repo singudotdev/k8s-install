@@ -8,7 +8,7 @@ Before proceed with the installation, we have to configure the nodes in order to
 
 On each node, we need to disable swap, update "/etc/hosts" and install the CRI (Container Runtime Interface). In this case, containerd.
 
-In the '/etc/hosts' we need to add all nodes IP with his hostname. 'cluster-endpoint' is the Virtual IP (VIP) that the cluster is going to have. Ex:
+In the `/etc/hosts` we need to add all nodes IP with his hostname. `cluster-endpoint` is the Virtual IP (VIP) that the cluster is going to have. Ex:
 
 ```sh
 192.168.1.200    cluster-endpoint
@@ -66,7 +66,7 @@ sudo apt install containerd.io
 containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
 ```
 
-Update the 'config.toml' for containerd in order to set `SystemdCgroup = true`:
+Update the `config.toml` for containerd in order to set `SystemdCgroup = true`:
 
 ```sh
 sudo vim /etc/containerd/config.toml
@@ -83,7 +83,7 @@ sudo systemctl restart containerd
 sudo systemctl enable containerd
 ```
 
-After doing this in all the nodes, we can proceed with the 'kubeadm' installation.
+After doing this in all the nodes, we can proceed with the Kubernetes installation.
 
 Installing kubeadm, kubelet and kubectl
 ---
