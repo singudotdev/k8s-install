@@ -88,7 +88,7 @@ After doing this in all the nodes, we can proceed with the Kubernetes installati
 
 Installing kubeadm, kubelet and kubectl
 ---
-
+REMEMBER TO UPDATE THE VERSION TO THE ONE YOU WANT
 ```sh
 sudo apt-get update
 # apt-transport-https may be a dummy package; if so, you can skip that package
