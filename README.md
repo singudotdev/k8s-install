@@ -316,7 +316,6 @@ cilium config set enable-l7-proxy true
 - **Hubble Observability**
 - **Encryption (WireGuard/IPsec)**
 - **Egress Gateway, Multi-Cluster Mesh**
-- **Istio/Linkerd integration (optional)**
 
 ## 4. Security & Compliance
 
