@@ -117,7 +117,7 @@ sudo vim /etc/containerd/config.toml
 ```
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/singudotdev/k8s-install/refs/heads/master/img/cgroup.png" alt="SystemdCgroup = true"/>
+  <img src="https://raw.githubusercontent.com/singudotdev/k8s-install/refs/heads/main/img/cgroup.png" alt="SystemdCgroup = true"/>
 </p>
 
 ```sh
