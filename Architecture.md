@@ -1,7 +1,5 @@
 # 🏛️ Enterprise Kubernetes Platform: Full-Stack Reference Architecture & Best Practices
 
----
-
 ## 📚 What Is This Document?
 
 This document provides a comprehensive, service-by-service blueprint for architecting a **highly available, secure, and observable Kubernetes platform** for enterprise use—whether on-premises, in the cloud, or hybrid. It’s the “north star” vision for what an ideal production cluster should look like, detailing each platform layer, recommended open-source components, and the rationale for every design choice.
@@ -158,5 +156,6 @@ This document provides a comprehensive, service-by-service blueprint for archite
   Automated upgrades, backup/recovery, disaster recovery, and unified, GitOps-driven operations reduce toil and risk.
 - **Vendor Neutrality & Flexibility:**  
   100% open source, cloud-agnostic, and extensible—portable across any infrastructure.
+
 
 
