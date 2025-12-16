@@ -35,8 +35,8 @@ This document provides a comprehensive, service-by-service blueprint for archite
 
 | Layer / Capability            | Main Components                    | Key Features / Benefits                                                                                                     |
 |------------------------------|------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
-| **Edge Load Balancer & Security**    | Cloudflare                         | Global Anycast load balancing, DDoS/WAF, SSL offload, CDN, Argo Tunnel, Bot Management, Zero Trust Access            |
-| **Ingress Controller**               | Traefik OSS                        | Dynamic L7 routing, mTLS, API gateway, Gateway API, observability                                                    |
+| **Edge Load Balancer & Security**    | Cloudflare                         | Global Anycast load balancing, DDoS/WAF, SSL offload, CDN, Bot Management, Zero Trust Access            |
+| **Ingress Controller**               | Traefik OSS                        | Dynamic L7 routing, mTLS, Gateway API, observability                                                    |
 | **Service Mesh & Networking**        | Cilium Service Mesh                | eBPF-powered mesh, sidecarless mTLS, L3/L4/L7 policies, L7 routing, Hubble observability, egress, multi-cluster      |
 | **etcd (Cluster Data Store)**        | etcd (as static pods or dedicated nodes) | Highly available, secure, and consistent cluster state, critical for control plane reliability                         |
 | **Security & Compliance**            | Cloudflare WAF, Cilium, OPA, Falco, Vault | Edge and internal segmentation, admission control, runtime security, secrets, CIS hardening                   |
@@ -193,3 +193,4 @@ For most enterprise clusters, start with HA etcd as static pods (default), and m
   100% open source, cloud-agnostic, and extensible—portable across any infrastructure.
 
 ---
+
