@@ -268,6 +268,8 @@ cilium config set enable-l7-proxy true
 
 Cilium Hubble provides deep network visibility and observability for your Kubernetes cluster.
 
+> If the cluster is single node and want to deploy Cilium Hubble, use this before enable it: `kubectl taint nodes <k8s-node-name> node-role.kubernetes.io/control-plane:NoSchedule-`
+
 > **If you already enabled Hubble previously (`cilium hubble enable`), you must first temporarily disable it before enabling the UI. The Hubble UI cannot be added at runtime to an already-enabled Hubble deployment.**
 
 ```sh
