@@ -254,12 +254,32 @@ rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 cilium install --version $CILIUM_VERSION \
   --set encryption.nodeEncryption=true \
   --set encryption.type=wireguard \
-  --set kubeProxyReplacement=true
+  --set kubeProxyReplacement=true \
+  --set l2announcements.enabled=true \
+  --set externalIPs.serve=true
 
 cilium status --wait
 
-# Enable Cilium for L7 policies and proxying:
 cilium config set enable-l7-proxy true
+
+cat <<EOF | kubectl apply -f -
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: public-ip-pool
+spec:
+  blocks:
+  - cidr: "217.154.106.191/32"
+---
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: public-ip-l2-policy
+spec:
+  loadBalancerIPs: true
+  interfaces:
+  - ens6
+EOF
 ```
 
 ---
